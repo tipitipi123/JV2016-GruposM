@@ -1,10 +1,10 @@
 /** 
  * Proyecto: Juego de la vida.
  * Organiza aspectos de gestión de la simulación según el modelo 2.
- * @since: prototipo2.0
+ * @since: prototipo2.1
  * @source: Simulacion.java 
- * @version: 2.0 - 2017.03.20
- * @author: ajp
+ * @version: 2.0 - 2017.05.03
+ * @author: ajp & Crzo
  */
 
 package modelo;
@@ -31,7 +31,7 @@ public class Simulacion implements Serializable, Cloneable {
 	 * @param mundo
 	 * @param estado
 	 */
-	public Simulacion(Usuario usr, Fecha fecha, Mundo mundo, EstadoSimulacion estado) {
+	public Simulacion(Usuario usr, Fecha fecha, Mundo mundo, EstadoSimulacion estado) throws ModeloException {
 		setUsr(usr);
 		setFecha(fecha);
 		setMundo(mundo);
@@ -42,9 +42,10 @@ public class Simulacion implements Serializable, Cloneable {
 	 * Constructor por defecto.
 	 * Establece el valor inicial, por defecto, de cada uno de los atributos.
 	 * Llama al constructor convencional de la propia clase.
+	 * @throws ModeloException 
 	 * @throws UtilException  
 	 */
-	public Simulacion() {
+	public Simulacion() throws ModeloException {
 		this(new Usuario(), new Fecha(), new Mundo(), EstadoSimulacion.PREPARADA);
 	}
 
@@ -56,7 +57,7 @@ public class Simulacion implements Serializable, Cloneable {
 	 * Llama al constructor convencional.
 	 * @param s - la Simulacion a clonar
 	 */
-	public Simulacion(Simulacion s) {
+	public Simulacion(Simulacion s) throws ModeloException {
 		this(s.usr, new Fecha(s.fecha), new Mundo(s.mundo), s.estado);
 	}
 
@@ -86,18 +87,22 @@ public class Simulacion implements Serializable, Cloneable {
 	}
 
 	public void setUsr(Usuario usr) {
+		assert usr != null;
 		this.usr = usr;
 	}
 
 	public void setMundo(Mundo mundo) {
+		assert mundo != null;
 		this.mundo = mundo;
 	}
 
 	public void setFecha(Fecha fecha) {
+		assert fecha != null;
 		this.fecha = fecha;
 	}
 
 	public void setEstado(EstadoSimulacion estado) {
+		assert estado != null;
 		this.estado = estado;
 	}
 
@@ -154,8 +159,15 @@ public class Simulacion implements Serializable, Cloneable {
 	 */
 	@Override
 	public Object clone() {
-		// Utiliza el constructor copia.
-		return new Simulacion(this);
-	}
-
+		
+		Object clon = null;
+		try {
+			clon = new Simulacion(this);
+		}
+		catch (ModeloException e) {
+		e.printStackTrace();
+		}
+	return clon;
+	} 
 } //class
+

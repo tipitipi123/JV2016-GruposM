@@ -11,6 +11,7 @@ package modelo.test;
 
 import static org.junit.Assert.*;
 import modelo.ClaveAcceso;
+import modelo.ModeloException;
 
 import org.junit.After;
 import org.junit.Before;
@@ -21,12 +22,20 @@ public class ClaveAccesoTest {
 	private ClaveAcceso clave2 ;
 
 	public ClaveAccesoTest () {
-		clave2 = new ClaveAcceso("Miau#0");
+		try {
+			clave2 = new ClaveAcceso("Miau#0");
+		} catch (ModeloException e){
+			
+		}
 	}
 
 	@Before
 	public void InicializaDatosPrueba() {	
-		clave1 = new ClaveAcceso();
+		try {
+			clave1 = new ClaveAcceso();
+		} catch (ModeloException e) {
+			
+		}
 	}
 
 	@After
@@ -47,7 +56,11 @@ public class ClaveAccesoTest {
 
 	@Test
 	public void testClaveAccesoCopia() {
-		clave1 = new ClaveAcceso(clave2);
+		try {
+			clave1 = new ClaveAcceso(clave2);
+		} catch (ModeloException e) {
+
+		}
 		assertNotSame(clave2, clave1);
 	}
 
@@ -58,7 +71,11 @@ public class ClaveAccesoTest {
 
 	@Test
 	public void testSetTexto() {
-		clave1.setTexto("Miau#0");
+		try {
+			clave1.setTexto("Miau#0");
+		} catch (ModeloException e) {
+		
+		}
 		assertEquals(clave1.getTexto(), "Pmezd8");
 	}
 
@@ -70,7 +87,11 @@ public class ClaveAccesoTest {
 	@Test
 	public void testEquals() {
 		ClaveAcceso clave = null;
-		clave = new ClaveAcceso();
+		try {
+			clave = new ClaveAcceso();
+		} catch (ModeloException e) {
+		
+		}
 		assertEquals(clave, clave1);
 	}
 
@@ -91,7 +112,11 @@ public class ClaveAccesoTest {
 		ClaveAcceso clave = null;
 		try {
 			String texto = null;
-			clave = new ClaveAcceso(texto);
+			try {
+				clave = new ClaveAcceso(texto);
+			} catch (ModeloException e) {
+				
+			}
 			fail("No debe llegar aquí...");
 		} 
 		catch (AssertionError e) { }
@@ -102,7 +127,11 @@ public class ClaveAccesoTest {
 	public void testClaveAccesoConvencionalTextoMalFormato() {	
 		ClaveAcceso clave = null;
 		try {
-			clave = new ClaveAcceso("hola");
+			try {
+				clave = new ClaveAcceso("hola");
+			} catch (ModeloException e) {
+				
+			}
 			fail("No debe llegar aquí...");
 		} 
 		catch (AssertionError e) { }
@@ -112,7 +141,11 @@ public class ClaveAccesoTest {
 	@Test
 	public void testSetTextoNull() {
 		try {
-			clave1.setTexto(null);
+			try {
+				clave1.setTexto(null);
+			} catch (ModeloException e) {
+				
+			}
 			fail("No debe llegar aquí...");
 		} 
 		catch (AssertionError e) { }
@@ -122,7 +155,11 @@ public class ClaveAccesoTest {
 	@Test
 	public void testSetTextoMalFormato() {
 		try {
-			clave1.setTexto("hola");
+			try {
+				clave1.setTexto("hola");
+			} catch (ModeloException e) {
+				
+			}
 			fail("No debe llegar aquí...");
 		} 
 		catch (AssertionError e) { }

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import accesoDatos.OperacionesDAO;
+import modelo.ModeloException;
 import modelo.Mundo;
 import modelo.Simulacion;
 import modelo.Simulacion.EstadoSimulacion;
@@ -58,8 +59,15 @@ public class SimulacionesDAO implements OperacionesDAO {
 		// Obtiene usuario (invitado) y mundo predeterminados.
 		Usuario usrDemo = UsuariosDAO.getInstancia().obtener("III1R");
 		Mundo mundoDemo = MundosDAO.getInstancia().obtener("MundoDemo");
-		Simulacion simulacionDemo = new Simulacion(usrDemo, new Fecha(), mundoDemo, EstadoSimulacion.PREPARADA);
-		datosSimulaciones.add(simulacionDemo);
+		Simulacion simulacionDemo;
+		try {
+			simulacionDemo = new Simulacion(usrDemo, new Fecha(), mundoDemo, EstadoSimulacion.PREPARADA);
+			datosSimulaciones.add(simulacionDemo);
+		} catch (ModeloException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	/**
@@ -131,7 +139,12 @@ public class SimulacionesDAO implements OperacionesDAO {
 	 */
 	public List<Simulacion> obtenerTodasMismoUsr(String idUsr) {
 		Simulacion aux = null;
-		aux = new Simulacion();
+		try {
+			aux = new Simulacion();
+		} catch (ModeloException e) {
+			
+			e.printStackTrace();
+		}
 		aux.setUsr(UsuariosDAO.getInstancia().obtener(idUsr));
 		//Busca posición inserción ordenada por idUsr + fecha. La última para el mismo usuario.
 		return separarSimulacionesUsr(obtenerPosicion(aux.getIdSimulacion()) - 1);
